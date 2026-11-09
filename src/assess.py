@@ -7,6 +7,7 @@ It catches per-asset failures so that one bad geometry does not end the run.
 from __future__ import annotations
 
 import datetime as _dt
+import math
 import json
 from pathlib import Path
 from typing import Any
@@ -182,8 +183,20 @@ def save_results(records: list[dict], outputs_dir: str = "outputs") -> dict:
     out = Path(outputs_dir)
     out.mkdir(parents=True, exist_ok=True)
 
+    def _clean(o):
+        """NaN is not valid JSON. Replace it with null so other tools can read this."""
+        if isinstance(o, dict):
+            return {k: _clean(v) for k, v in o.items()}
+        if isinstance(o, (list, tuple)):
+            return [_clean(v) for v in o]
+        if isinstance(o, float) and math.isnan(o):
+            return None
+        return o
+
     json_path = out / "results.json"
-    json_path.write_text(json.dumps(records, indent=2, default=str))
+    json_path.write_text(
+        json.dumps(_clean(records), indent=2, default=str, allow_nan=False)
+    )
 
     flat = []
     for r in records:

@@ -8,6 +8,7 @@ much of the rubric was actually resolved.
 from __future__ import annotations
 
 import html
+import math
 from pathlib import Path
 
 from . import config as C
@@ -32,13 +33,32 @@ FLAG_RULES = {
 }
 
 
+NOT_RESOLVED = "<span class='na'>not resolved</span>"
+
+
+def _isna(v) -> bool:
+    """True for None and for float NaN, which pandas uses for a missing value.
+
+    NaN is truthy, so a bare `if value:` check lets it through. That mistake
+    cost a 40-minute Earth Engine run once; hence this helper and its tests.
+    """
+    if v is None:
+        return True
+    try:
+        return math.isnan(float(v))
+    except (TypeError, ValueError):
+        return False
+
+
 def _e(v) -> str:
-    return html.escape(str(v)) if v is not None else "&mdash;"
+    return html.escape(str(v)) if not _isna(v) else "&mdash;"
 
 
 def _fmt(v, suffix: str = "", nd: int = 1) -> str:
-    if v is None:
-        return "<span class='na'>not resolved</span>"
+    if isinstance(v, bool):
+        return "yes" if v else "no"
+    if _isna(v):
+        return NOT_RESOLVED
     if isinstance(v, bool):
         return "yes" if v else "no"
     try:
@@ -49,7 +69,7 @@ def _fmt(v, suffix: str = "", nd: int = 1) -> str:
 
 def _sparkline(values, width=260, height=44, colour="#2b6cb0") -> str:
     """A tiny inline SVG line. No library, no build step."""
-    pts = [(i, v) for i, v in enumerate(values or []) if v is not None]
+    pts = [(i, float(v)) for i, v in enumerate(values or []) if not _isna(v)]
     if len(pts) < 2:
         return "<span class='na'>no series</span>"
     xs = [p[0] for p in pts]
@@ -76,7 +96,8 @@ def _evidence_rows(r: dict) -> str:
     rows = [
         (
             "Reported commissioning year",
-            _e(int(r["commissioning_year"])) if r.get("commissioning_year") else "<span class='na'>not resolved</span>",
+            NOT_RESOLVED if _isna(r.get("commissioning_year"))
+            else _e(int(float(r["commissioning_year"]))),
             "WRI Global Power Plant Database",
         ),
         (
