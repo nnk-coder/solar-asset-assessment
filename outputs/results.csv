@@ -1,0 +1,6 @@
+id,name,capacity_mw,latitude,longitude,commissioning_year,observed_build_month,build_delay_m,mean_resource_anomaly_pct,heat_days_per_year,mean_tmax_c,thermal_derate_pct,ndvi_trend_per_year,gsw_occurrence_pct,hand_m,score,traffic_light,evidence_completeness,flag_build_delay,flag_resource_shortfall,flag_thermal_derating,flag_vegetation_encroachment,flag_flood_exposure
+WRI1026151,Kamuthi Solar Power Plant,648.0,9.3381,78.3917,,2017-02,,-2.758,5.679,33.746,14.0,0.02329,14.0,7.7,35.0,amber,0.83,False,False,False,True,True
+WKS0069465,BhSP3,560.0,27.491,71.961,,2017-01,,-1.299,67.011,33.43,13.89,0.00485,0.0,7.4,15.0,green,0.83,False,False,True,False,False
+WKS0069391,KUMSP} Greenko,500.0,15.679,78.274,,2017-01,,-2.904,14.0,32.61,13.6,0.00499,7.0,21.7,0.0,green,0.83,False,False,False,False,False
+WKS0066930,NPKSP} Greenko,500.0,14.101,78.463,,2017-04,,-2.93,14.278,32.58,13.59,0.00939,82.0,109.0,20.0,green,0.83,False,False,False,False,True
+WKS0069463,BhSP1,420.0,27.491,71.961,,2017-01,,-1.307,66.0,33.404,13.88,0.00582,0.0,7.2,15.0,green,0.83,False,False,True,False,False

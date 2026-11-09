@@ -3,41 +3,67 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Solar asset assessment — India</title>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head><body>
 <main class="site">
 <header class="hero">
   <p class="eyebrow">Open-data prototype</p>
   <h1>Solar asset assessment</h1>
-  <p class="lede">Independent, satellite-based corroboration of reported
-    utility-scale solar plants in India, built entirely from free data in
-    Google Earth Engine.</p>
+  <p class="lede">Every utility-scale solar plant in India above 50 MW in the
+    WRI Global Power Plant Database, tested against what satellites actually
+    observed at the site. Five checks, published thresholds, one card per asset.</p>
+  <p class="lede small">This exists to answer a narrow question: can a reported
+    asset record be independently corroborated from free data, quickly enough
+    to be worth doing before a diligence site visit? The answer is partly, and
+    the cards are explicit about which part.</p>
 </header>
 
-<section>
-  <h2>No run has been published yet</h2>
-  <p>This page is a placeholder. It is replaced automatically the first time
-    the notebook is run and <code>docs/</code> is committed — at which point it
-    becomes a map, a sortable portfolio table and one assessment card per
-    asset.</p>
-  <p>The code, the rubric and every threshold are already in the repository,
-    and the scoring logic is unit tested without needing any credentials.</p>
-  <p style="margin-top:24px">
-    <a href="https://github.com/nnk-coder/solar-asset-assessment">Repository and method &rarr;</a>
-  </p>
+<section class="stats">
+  <div class="stat"><b>5</b><span>assets assessed</span></div>
+  <div class="stat"><b style="color:#b3261e">0</b><span>red</span></div>
+  <div class="stat"><b style="color:#b06b00">1</b><span>amber</span></div>
+  <div class="stat"><b style="color:#1a7f44">4</b><span>green</span></div>
+  <div class="stat"><b>83%</b><span>mean evidence resolved</span></div>
+  <div class="stat"><b class="date">2026-11-09</b><span>run date</span></div>
 </section>
 
 <section>
-  <h2>What it will show</h2>
-  <p class="note">Five checks against each reported asset, with published
-    thresholds:</p>
+  <h2>Where they are</h2>
+  <div id="map" style="height:460px;border-radius:10px;overflow:hidden"></div>
+  <p class="note">Marker size reflects capacity; colour is the traffic light.</p>
+</section>
+
+<section>
+  <h2>Portfolio</h2>
+  <p class="note">Click a column heading to sort. Score is the weighted sum of
+    flags that fired, not a valuation.</p>
+  <table class="portfolio" id="pf">
+    <thead><tr>
+      <th>Asset</th><th>MW</th><th>Score</th><th>Evidence</th><th>Flags fired</th>
+    </tr></thead>
+    <tbody><tr><td><a href='cards/WRI1026151.html'>Kamuthi Solar Power Plant</a></td><td data-v='648.0'>648</td><td data-v='35.0'><span class='pill' style='background:#b06b00'>35</span></td><td data-v='0.83'>83%</td><td>vegetation encroachment, flood exposure</td></tr>
+<tr><td><a href='cards/WKS0069465.html'>BhSP3</a></td><td data-v='560.0'>560</td><td data-v='15.0'><span class='pill' style='background:#1a7f44'>15</span></td><td data-v='0.83'>83%</td><td>thermal derating</td></tr>
+<tr><td><a href='cards/WKS0069391.html'>KUMSP} Greenko</a></td><td data-v='500.0'>500</td><td data-v='0.0'><span class='pill' style='background:#1a7f44'>0</span></td><td data-v='0.83'>83%</td><td>none</td></tr>
+<tr><td><a href='cards/WKS0066930.html'>NPKSP} Greenko</a></td><td data-v='500.0'>500</td><td data-v='20.0'><span class='pill' style='background:#1a7f44'>20</span></td><td data-v='0.83'>83%</td><td>flood exposure</td></tr>
+<tr><td><a href='cards/WKS0069463.html'>BhSP1</a></td><td data-v='420.0'>420</td><td data-v='15.0'><span class='pill' style='background:#1a7f44'>15</span></td><td data-v='0.83'>83%</td><td>thermal derating</td></tr></tbody>
+  </table>
+</section>
+
+<section>
+  <h2>How the score is built</h2>
   <table class="weights">
-    <thead><tr><th>Check</th><th>Weight</th><th>Evidence</th></tr></thead>
+    <thead><tr><th>Check</th><th>Weight</th><th>Fires when</th></tr></thead>
     <tbody>
-      <tr><td>Build timing</td><td>30</td><td>Dynamic World built + bare share of footprint, monthly since 2017</td></tr>
-      <tr><td>Resource shortfall</td><td>20</td><td>ERA5-Land annual GHI against the 1991&ndash;2020 mean</td></tr>
-      <tr><td>Thermal derating</td><td>15</td><td>ERA5-Land daily maximum temperature, NOCT cell model</td></tr>
-      <tr><td>Vegetation</td><td>15</td><td>Sentinel-2 annual median NDVI inside the footprint</td></tr>
-      <tr><td>Flood exposure</td><td>20</td><td>JRC Global Surface Water and Copernicus DEM terrain</td></tr>
+      <tr><td>Build timing</td><td>30</td>
+        <td>observed build more than 12 months after the reported commissioning year ends</td></tr>
+      <tr><td>Resource shortfall</td><td>20</td>
+        <td>mean annual GHI anomaly below -3.0% against 1991-2020</td></tr>
+      <tr><td>Thermal derating</td><td>15</td>
+        <td>more than 60 days a year above 40°C</td></tr>
+      <tr><td>Vegetation</td><td>15</td>
+        <td>NDVI trend inside the footprint above +0.010 per year</td></tr>
+      <tr><td>Flood exposure</td><td>20</td>
+        <td>surface-water occurrence above 10% or height above drainage under 5 m</td></tr>
     </tbody>
   </table>
 </section>
@@ -45,10 +71,14 @@
 <section class="limits">
   <h2>What this does not do</h2>
   <ul>
-    <li>The footprint is a capacity-scaled circle, not a segmented panel array.</li>
-    <li>Height above nearest drainage is a DEM screening proxy, not a hydraulic model.</li>
-    <li>A flag is a reason to look, never a finding. Nothing here is evidence of
-      misreporting by any operator.</li>
+    <li>The footprint is a capacity-scaled circle, not a segmented panel array.
+      It over-includes surrounding land, which dilutes every area statistic.</li>
+    <li>Height above nearest drainage is approximated from a DEM neighbourhood
+      minimum. It is a screening proxy, not a hydraulic flood model.</li>
+    <li>A flag is a reason to look, never a finding. Nothing here is evidence
+      of misreporting by any operator.</li>
+    <li>Unresolved checks score as clear, so a score is a lower bound. Each card
+      states how much of the rubric was resolved.</li>
     <li>Earth Engine's free tier is for non-commercial use. This is a personal
       methodology prototype.</li>
   </ul>
@@ -58,7 +88,47 @@
   <p>Data: Sentinel-2 (ESA/Copernicus), Dynamic World (Google/WRI),
      ERA5-Land (ECMWF/Copernicus), JRC Global Surface Water,
      Copernicus DEM GLO-30, WRI Global Power Plant Database.
-     Code MIT licensed.</p>
+     Processed in Google Earth Engine. Code MIT licensed.</p>
 </footer>
 </main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const PTS = [{"name": "Kamuthi Solar Power Plant", "lat": 9.3381, "lon": 78.3917, "score": 35.0, "light": "amber", "mw": 648.0, "slug": "WRI1026151"}, {"name": "BhSP3", "lat": 27.491, "lon": 71.961, "score": 15.0, "light": "green", "mw": 560.0, "slug": "WKS0069465"}, {"name": "KUMSP} Greenko", "lat": 15.679, "lon": 78.274, "score": 0.0, "light": "green", "mw": 500.0, "slug": "WKS0069391"}, {"name": "NPKSP} Greenko", "lat": 14.101, "lon": 78.463, "score": 20.0, "light": "green", "mw": 500.0, "slug": "WKS0066930"}, {"name": "BhSP1", "lat": 27.491, "lon": 71.961, "score": 15.0, "light": "green", "mw": 420.0, "slug": "WKS0069463"}];
+const COL = {"green": "#1a7f44", "amber": "#b06b00", "red": "#b3261e"};
+const map = L.map('map').setView([22.5, 79.0], 5);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+PTS.forEach(p => {
+  L.circleMarker([p.lat, p.lon], {
+    radius: Math.max(5, Math.min(18, Math.sqrt(p.mw || 1) / 3)),
+    color: COL[p.light] || '#666', fillColor: COL[p.light] || '#666',
+    fillOpacity: 0.65, weight: 1.5
+  }).addTo(map).bindPopup(
+    `<b>${p.name}</b><br>${(p.mw||0).toLocaleString()} MW &middot; score ${p.score}` +
+    `<br><a href="cards/${p.slug}.html">assessment card</a>`
+  );
+});
+if (PTS.length) {
+  map.fitBounds(PTS.map(p => [p.lat, p.lon]), {padding: [40, 40]});
+}
+
+// sortable table, no dependency
+document.querySelectorAll('#pf thead th').forEach((th, i) => {
+  th.style.cursor = 'pointer';
+  let asc = false;
+  th.addEventListener('click', () => {
+    asc = !asc;
+    const tb = document.querySelector('#pf tbody');
+    const rows = Array.from(tb.rows);
+    rows.sort((a, b) => {
+      const av = a.cells[i].dataset.v, bv = b.cells[i].dataset.v;
+      if (av !== undefined && bv !== undefined) return (asc ? 1 : -1) * (parseFloat(av) - parseFloat(bv));
+      return (asc ? 1 : -1) * a.cells[i].innerText.localeCompare(b.cells[i].innerText);
+    });
+    rows.forEach(r => tb.appendChild(r));
+  });
+});
+</script>
 </body></html>
