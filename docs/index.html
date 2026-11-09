@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Solar asset assessment — India</title>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<main class="site">
+<header class="hero">
+  <p class="eyebrow">Open-data prototype</p>
+  <h1>Solar asset assessment</h1>
+  <p class="lede">Independent, satellite-based corroboration of reported
+    utility-scale solar plants in India, built entirely from free data in
+    Google Earth Engine.</p>
+</header>
+
+<section>
+  <h2>No run has been published yet</h2>
+  <p>This page is a placeholder. It is replaced automatically the first time
+    the notebook is run and <code>docs/</code> is committed — at which point it
+    becomes a map, a sortable portfolio table and one assessment card per
+    asset.</p>
+  <p>The code, the rubric and every threshold are already in the repository,
+    and the scoring logic is unit tested without needing any credentials.</p>
+  <p style="margin-top:24px">
+    <a href="https://github.com/YOUR-GITHUB-USERNAME/solar-asset-assessment">Repository and method &rarr;</a>
+  </p>
+</section>
+
+<section>
+  <h2>What it will show</h2>
+  <p class="note">Five checks against each reported asset, with published
+    thresholds:</p>
+  <table class="weights">
+    <thead><tr><th>Check</th><th>Weight</th><th>Evidence</th></tr></thead>
+    <tbody>
+      <tr><td>Build timing</td><td>30</td><td>Dynamic World built + bare share of footprint, monthly since 2017</td></tr>
+      <tr><td>Resource shortfall</td><td>20</td><td>ERA5-Land annual GHI against the 1991&ndash;2020 mean</td></tr>
+      <tr><td>Thermal derating</td><td>15</td><td>ERA5-Land daily maximum temperature, NOCT cell model</td></tr>
+      <tr><td>Vegetation</td><td>15</td><td>Sentinel-2 annual median NDVI inside the footprint</td></tr>
+      <tr><td>Flood exposure</td><td>20</td><td>JRC Global Surface Water and Copernicus DEM terrain</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="limits">
+  <h2>What this does not do</h2>
+  <ul>
+    <li>The footprint is a capacity-scaled circle, not a segmented panel array.</li>
+    <li>Height above nearest drainage is a DEM screening proxy, not a hydraulic model.</li>
+    <li>A flag is a reason to look, never a finding. Nothing here is evidence of
+      misreporting by any operator.</li>
+    <li>Earth Engine's free tier is for non-commercial use. This is a personal
+      methodology prototype.</li>
+  </ul>
+</section>
+
+<footer class="sitefoot">
+  <p>Data: Sentinel-2 (ESA/Copernicus), Dynamic World (Google/WRI),
+     ERA5-Land (ECMWF/Copernicus), JRC Global Surface Water,
+     Copernicus DEM GLO-30, WRI Global Power Plant Database.
+     Code MIT licensed.</p>
+</footer>
+</main>
+</body></html>
