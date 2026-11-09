@@ -3,9 +3,9 @@
 Independent, satellite-based corroboration of reported utility-scale solar
 plants in India, built entirely from free and open data in Google Earth Engine.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YOUR-GITHUB-USERNAME/solar-asset-assessment/blob/main/notebooks/solar_asset_assessment.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nnk-coder/solar-asset-assessment/blob/main/notebooks/solar_asset_assessment.ipynb)
 
-**[→ Published portfolio view](https://YOUR-GITHUB-USERNAME.github.io/solar-asset-assessment/)**
+**[→ Published portfolio view](https://nnk-coder.github.io/solar-asset-assessment/)**
 
 ---
 
