@@ -4,11 +4,36 @@ from __future__ import annotations
 
 import html
 import json
+import math
 from pathlib import Path
 
 from . import config as C
 
 LIGHT = {"green": "#1a7f44", "amber": "#b06b00", "red": "#b3261e"}
+
+
+def _n(v, default=0.0) -> float:
+    """Coerce to float, mapping None and NaN to a default.
+
+    pandas hands back NaN for missing values and NaN is truthy, so `v or 0`
+    is not enough.
+    """
+    if v is None:
+        return default
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return default
+    return default if math.isnan(f) else f
+
+
+def _isna(v) -> bool:
+    if v is None:
+        return True
+    try:
+        return math.isnan(float(v))
+    except (TypeError, ValueError):
+        return False
 
 
 def _rows(records: list[dict]) -> str:
@@ -21,10 +46,10 @@ def _rows(records: list[dict]) -> str:
         out.append(
             "<tr>"
             f"<td><a href='cards/{html.escape(slug)}.html'>{html.escape(str(r.get('name')))}</a></td>"
-            f"<td data-v='{r.get('capacity_mw') or 0}'>{(r.get('capacity_mw') or 0):,.0f}</td>"
-            f"<td data-v='{r.get('score') or 0}'>"
-            f"<span class='pill' style='background:{LIGHT[light]}'>{(r.get('score') or 0):.0f}</span></td>"
-            f"<td data-v='{r.get('evidence_completeness') or 0}'>{(r.get('evidence_completeness') or 0):.0%}</td>"
+            f"<td data-v='{_n(r.get('capacity_mw'))}'>{_n(r.get('capacity_mw')):,.0f}</td>"
+            f"<td data-v='{_n(r.get('score'))}'>"
+            f"<span class='pill' style='background:{LIGHT[light]}'>{_n(r.get('score')):.0f}</span></td>"
+            f"<td data-v='{_n(r.get('evidence_completeness'))}'>{_n(r.get('evidence_completeness')):.0%}</td>"
             f"<td>{html.escape(fired)}</td>"
             "</tr>"
         )
@@ -34,25 +59,25 @@ def _rows(records: list[dict]) -> str:
 def _markers(records: list[dict]) -> str:
     pts = [
         {
-            "name": r.get("name"),
-            "lat": r.get("latitude"),
-            "lon": r.get("longitude"),
-            "score": r.get("score"),
-            "light": r.get("traffic_light"),
-            "mw": r.get("capacity_mw"),
+            "name": str(r.get("name")),
+            "lat": _n(r.get("latitude")),
+            "lon": _n(r.get("longitude")),
+            "score": _n(r.get("score")),
+            "light": r.get("traffic_light") or "green",
+            "mw": _n(r.get("capacity_mw")),
             "slug": str(r.get("id") or r.get("name")).replace("/", "-"),
         }
         for r in records
-        if r.get("latitude") is not None
+        if not _isna(r.get("latitude")) and not _isna(r.get("longitude"))
     ]
-    return json.dumps(pts)
+    return json.dumps(pts, allow_nan=False)
 
 
 def render_index(records: list[dict], as_of: str) -> str:
     n = len(records)
     counts = {k: sum(1 for r in records if r.get("traffic_light") == k) for k in LIGHT}
     mean_completeness = (
-        sum(r.get("evidence_completeness") or 0 for r in records) / n if n else 0
+        sum(_n(r.get("evidence_completeness")) for r in records) / n if n else 0
     )
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">

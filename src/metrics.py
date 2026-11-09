@@ -226,5 +226,13 @@ def evidence_completeness(values: dict) -> float:
         "gsw_occurrence_pct",
         "hand_m",
     ]
-    present = sum(1 for k in keys if values.get(k) is not None)
+    def _resolved(v) -> bool:
+        if v is None:
+            return False
+        try:
+            return not math.isnan(float(v))
+        except (TypeError, ValueError):
+            return True
+
+    present = sum(1 for k in keys if _resolved(values.get(k)))
     return round(present / len(keys), 2)
