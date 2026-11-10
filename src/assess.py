@@ -90,7 +90,9 @@ def assess_asset(row: dict, as_of: str | None = None) -> dict:
         months, dev = gee.developed_fraction_series(geom, C.S2_START, end)
         record["dev_months"] = months
         record["dev_fraction"] = dev
-        obs = M.observed_build_month(months, dev)
+        status, month = M.build_status(months, dev)
+        record["build_status"] = status
+        obs = month if status == "ramp" else None
         record["observed_build_month"] = obs
         record["build_delay_m"] = M.build_delay_months(
             obs, row.get("commissioning_year")

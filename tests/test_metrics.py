@@ -206,3 +206,74 @@ def test_evidence_completeness():
     assert M.evidence_completeness(_clean_inputs()) == 1.0
     assert M.evidence_completeness({}) == 0.0
     assert M.evidence_completeness({"hand_m": 3.0, "heat_days_per_year": 10}) == 0.33
+
+
+# --- build_status ----------------------------------------------------------
+
+
+def _months(n, start_year=2017):
+    out = []
+    y, m = start_year, 1
+    for _ in range(n):
+        out.append(f"{y}-{m:02d}")
+        m += 1
+        if m > 12:
+            y, m = y + 1, 1
+    return out
+
+
+def test_build_status_detects_a_real_ramp():
+    months = _months(60)
+    frac = [0.02] * 18 + [i / 20 * 0.8 for i in range(1, 13)] + [0.8] * 30
+    status, month = M.build_status(months, frac[:60])
+    assert status == "ramp"
+    assert month is not None and month >= "2018-"
+
+
+def test_build_status_flags_plants_predating_the_record():
+    """The failure that mattered: a plant built before 2017 used to report
+    the first month of the record as its construction date."""
+    months = _months(60)
+    frac = [0.85] * 60
+    assert M.build_status(months, frac) == ("already_built", "2017-01")
+
+
+def test_build_status_rejects_seasonal_noise():
+    # oscillates either side of 0.5 without ever establishing a step
+    months = _months(60)
+    frac = [0.5 + 0.15 * (1 if i % 6 < 3 else -1) for i in range(60)]
+    status, month = M.build_status(months, frac)
+    assert status in ("already_built", "no_signal")
+    assert status != "ramp"
+
+
+def test_build_status_rejects_a_declining_series():
+    months = _months(60)
+    frac = [0.9 - i * 0.012 for i in range(60)]
+    assert M.build_status(months, frac)[0] != "ramp"
+
+
+def test_build_status_needs_enough_observations():
+    assert M.build_status(_months(6), [0.1] * 6) == ("no_data", None)
+
+
+def test_build_status_handles_an_empty_site():
+    assert M.build_status(_months(40), [0.0] * 40) == ("no_signal", None)
+
+
+def test_observed_build_month_only_reports_a_genuine_ramp():
+    months = _months(60)
+    assert M.observed_build_month(months, [0.85] * 60) is None
+    ramp = [0.02] * 18 + [i / 20 * 0.8 for i in range(1, 13)] + [0.8] * 30
+    assert M.observed_build_month(months, ramp[:60]) is not None
+
+
+def test_smooth_median_suppresses_single_month_spikes():
+    vals = [0.1, 0.1, 0.9, 0.1, 0.1]
+    assert max(M.smooth_median(vals)) < 0.9
+
+
+def test_smooth_median_keeps_a_step():
+    vals = [0.1] * 5 + [0.9] * 5
+    sm = M.smooth_median(vals)
+    assert sm[0] < 0.2 and sm[-1] > 0.8

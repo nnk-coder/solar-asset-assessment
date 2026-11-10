@@ -6,6 +6,7 @@ can be verified without a Colab run.
 
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -27,6 +28,7 @@ def _record(**over):
         "source_url": "https://example.org/plant",
         "footprint_radius_m": 1323,
         "as_of": "2026-11-09",
+        "build_status": "ramp",
         "observed_build_month": "2021-04",
         "build_delay_m": 15.5,
         "mean_resource_anomaly_pct": -1.2,
@@ -65,7 +67,8 @@ def test_card_renders_and_names_the_asset():
     assert out.startswith("<!doctype html>")
     assert "Example Solar Park" in out
     assert "45" in out
-    assert "AMBER" in out
+    assert "worth a look" in out
+    assert "risk score" in out
 
 
 def test_card_marks_unresolved_evidence_rather_than_zero():
@@ -73,7 +76,8 @@ def test_card_marks_unresolved_evidence_rather_than_zero():
         _record(hand_m=None, gsw_occurrence_pct=None, evidence_completeness=0.67)
     )
     assert "not resolved" in out
-    assert "67% of the rubric was resolved" in out
+    assert "2 of six checks could not be resolved" in out
+    assert "lower bound" in out
 
 
 def test_card_escapes_hostile_names():
@@ -84,7 +88,7 @@ def test_card_escapes_hostile_names():
 
 def test_card_handles_missing_series():
     out = CARD.render_card(_record(dev_fraction=[], ndvi_values=None))
-    assert "no series" in out
+    assert "Not enough observations to plot" in out
 
 
 def test_card_surfaces_query_errors():
@@ -102,7 +106,7 @@ def test_index_renders_every_asset():
     out = SITE.render_index(recs, "2026-11-09")
     assert "Second Park" in out and "Third Park" in out
     assert "cards/IND0000002.html" in out
-    assert "<b>3</b><span>assets assessed</span>" in out
+    assert "<b>3</b><span>assets tested</span>" in out
 
 
 def test_index_counts_traffic_lights():
@@ -112,8 +116,8 @@ def test_index_counts_traffic_lights():
         _record(id="c", traffic_light="green"),
     ]
     out = SITE.render_index(recs, "2026-11-09")
-    assert ">2</b><span>red</span>" in out
-    assert ">1</b><span>green</span>" in out
+    assert ">2</b><span>investigate</span>" in out
+    assert ">1</b><span>little to investigate</span>" in out
 
 
 def test_index_embeds_valid_marker_json():
@@ -131,7 +135,65 @@ def test_index_embeds_valid_marker_json():
 
 def test_index_survives_empty_portfolio():
     out = SITE.render_index([], "2026-11-09")
-    assert "<b>0</b><span>assets assessed</span>" in out
+    assert "<b>0</b><span>assets tested</span>" in out
+
+
+def test_card_survives_nan_commissioning_year():
+    """pandas hands back NaN, and NaN is truthy. Regression: int(nan) raised."""
+    out = CARD.render_card(_record(commissioning_year=float("nan")))
+    assert "not resolved" in out
+    assert re.search(r"\bnan\b", out, re.I) is None
+
+
+def test_card_survives_nan_everywhere():  # noqa: D103
+    nan = float("nan")
+    out = CARD.render_card(
+        _record(
+            commissioning_year=nan,
+            capacity_mw=nan,
+            build_delay_m=nan,
+            mean_resource_anomaly_pct=nan,
+            baseline_ghi_kwh_m2=nan,
+            heat_days_per_year=nan,
+            thermal_derate_pct=nan,
+            ndvi_trend_per_year=nan,
+            gsw_occurrence_pct=nan,
+            hand_m=nan,
+            dev_fraction=[0.1, nan, 0.4],
+            ndvi_values=[nan, nan],
+        )
+    )
+    assert re.search(r"\bnan\b", out, re.I) is None
+
+
+def test_index_survives_nan_values():
+    import json
+    import re
+
+    nan = float("nan")
+    recs = [_record(capacity_mw=nan, score=nan, evidence_completeness=nan)]
+    out = SITE.render_index(recs, "2026-11-09")
+    # "nan" as a standalone token, not the "nan" inside "maintenance"
+    assert re.search(r"\bnan\b", out, re.I) is None
+    pts = json.loads(re.search(r"const PTS = (\[.*?\]);", out, re.S).group(1))
+    assert pts[0]["mw"] == 0.0
+
+
+def test_index_drops_assets_without_coordinates():
+    recs = [_record(), _record(id="b", name="No Coords", latitude=float("nan"))]
+    out = SITE.render_index(recs, "2026-11-09")
+    import json
+    import re
+
+    pts = json.loads(re.search(r"const PTS = (\[.*?\]);", out, re.S).group(1))
+    assert len(pts) == 1
+    assert "No Coords" in out  # still listed in the table
+
+
+def test_evidence_completeness_treats_nan_as_unresolved():
+    from src import metrics as M
+
+    assert M.evidence_completeness({"hand_m": float("nan")}) == 0.0
 
 
 def test_write_cards_and_site(tmp_path):

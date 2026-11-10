@@ -45,28 +45,75 @@ def first_crossing_index(series: Sequence[float], threshold: float) -> int | Non
     return None
 
 
+def _median(values: Sequence[float]) -> float:
+    s = sorted(values)
+    n = len(s)
+    return s[n // 2] if n % 2 else (s[n // 2 - 1] + s[n // 2]) / 2.0
+
+
+def smooth_median(values: Sequence[float | None], window: int = 3) -> list[float | None]:
+    """Rolling median, which suppresses single-month label noise without
+    shifting a genuine step the way a mean would."""
+    out: list[float | None] = []
+    for i in range(len(values)):
+        lo = max(0, i - window // 2)
+        hi = min(len(values), i + window // 2 + 1)
+        chunk = [v for v in values[lo:hi] if v is not None and not math.isnan(v)]
+        out.append(_median(chunk) if chunk else None)
+    return out
+
+
+def build_status(
+    months: Sequence[str], developed_fraction: Sequence[float]
+) -> tuple[str, str | None]:
+    """Classify the construction signal, rather than always returning a month.
+
+    Returns one of:
+      ("ramp", "YYYY-MM")   a genuine rise from a low baseline to a plateau
+      ("already_built", first month)  high from the first observation, so the
+                          plant predates the satellite record and this check
+                          cannot speak to it
+      ("no_signal", None)   noisy, flat or declining; no construction visible
+      ("no_data", None)     too few usable observations
+
+    The earlier version always returned a month. On a plant built before 2017
+    it returned the first month of the record, which looked like a finding and
+    was an artefact. Saying "this check cannot speak to it" is the honest
+    output, and it is why the status is reported on the card.
+    """
+    clean = [v for v in developed_fraction if v is not None and not math.isnan(v)]
+    if len(clean) < 12:
+        return ("no_data", None)
+
+    sm = smooth_median(developed_fraction)
+    sm_clean = [v for v in sm if v is not None]
+    head = sm_clean[: max(6, len(sm_clean) // 10)]
+    tail = sm_clean[-12:]
+    head_level, final_level = _median(head), _median(tail)
+
+    if final_level <= 0.05:
+        return ("no_signal", None)
+
+    # Already developed when the record opens: no rise left to observe.
+    if head_level >= final_level * C.BUILD_COMPLETION_FRACTION:
+        first = next((m for m, v in zip(months, sm) if v is not None), None)
+        return ("already_built", first)
+
+    # A real ramp needs the plateau to stand clear of the baseline.
+    if final_level - head_level < C.BUILD_MIN_RISE:
+        return ("no_signal", None)
+
+    threshold = head_level + (final_level - head_level) * C.BUILD_COMPLETION_FRACTION
+    idx = first_crossing_index(sm, threshold)
+    return ("ramp", months[idx]) if idx is not None else ("no_signal", None)
+
+
 def observed_build_month(
     months: Sequence[str], developed_fraction: Sequence[float]
 ) -> str | None:
-    """First month at which development reaches BUILD_COMPLETION_FRACTION of its final level.
-
-    `developed_fraction` is the share of the footprint classified as built or
-    bare in each month. The final level is the median of the last 12 months,
-    which is more robust than the single last value.
-    """
-    clean = [v for v in developed_fraction if v is not None and not math.isnan(v)]
-    if len(clean) < 6:
-        return None
-    tail = clean[-12:] if len(clean) >= 12 else clean
-    final_level = sorted(tail)[len(tail) // 2]
-    if final_level <= 0:
-        return None
-    idx = first_crossing_index(
-        developed_fraction, final_level * C.BUILD_COMPLETION_FRACTION
-    )
-    if idx is None:
-        return None
-    return months[idx]
+    """The month construction crossed halfway, or None when no ramp is visible."""
+    status, month = build_status(months, developed_fraction)
+    return month if status == "ramp" else None
 
 
 def build_delay_months(

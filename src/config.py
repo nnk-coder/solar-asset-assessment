@@ -41,6 +41,12 @@ BUILD_COMPLETION_FRACTION = 0.50
 # Months after the claimed commissioning year end before we flag a delay.
 BUILD_DELAY_FLAG_MONTHS = 12
 
+# Minimum rise from baseline to plateau, in footprint fraction, before we are
+# willing to call a time series "construction" rather than seasonal noise.
+# Dynamic World relabels bare ground as grass or crops between seasons, which
+# moves this series by 0.2-0.3 on a plant that is not being built at all.
+BUILD_MIN_RISE = 0.25
+
 # Sentinel-2 SCL classes to mask: 3 cloud shadow, 8 cloud medium probability,
 # 9 cloud high probability, 10 thin cirrus.
 S2_SCL_MASK_CLASSES = (3, 8, 9, 10)
