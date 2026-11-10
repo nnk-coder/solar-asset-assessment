@@ -2,99 +2,186 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Solar asset assessment — India</title>
+<meta name="description" content="Testing reported solar plants in India against what satellites actually saw, using only free data.">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head><body>
 <main class="site">
+
 <header class="hero">
-  <p class="eyebrow">Open-data prototype</p>
-  <h1>Solar asset assessment</h1>
-  <p class="lede">Every utility-scale solar plant in India above 50 MW in the
-    WRI Global Power Plant Database, tested against what satellites actually
-    observed at the site. Five checks, published thresholds, one card per asset.</p>
-  <p class="lede small">This exists to answer a narrow question: can a reported
-    asset record be independently corroborated from free data, quickly enough
-    to be worth doing before a diligence site visit? The answer is partly, and
-    the cards are explicit about which part.</p>
+  <p class="eyebrow">Open-data prototype &middot; 2026-11-10</p>
+  <h1>A solar farm's paperwork says one thing.<br>What did the satellites see?</h1>
+  <p class="lede">Before anyone spends money on a solar asset &mdash; lending against
+    it, buying it, insuring it, auditing it &mdash; there is a reported record: a
+    capacity, a build year, an owner. Almost none of it has been checked.</p>
+  <p class="lede">This takes 5 of India's largest solar plants and tests that
+    record against nine years of free satellite imagery. No site visit, no
+    licence fee, no data purchase. Every threshold is published, and where the
+    evidence runs out, the page says so instead of guessing.</p>
 </header>
 
 <section class="stats">
-  <div class="stat"><b>5</b><span>assets assessed</span></div>
-  <div class="stat"><b style="color:#b3261e">0</b><span>red</span></div>
-  <div class="stat"><b style="color:#b06b00">1</b><span>amber</span></div>
-  <div class="stat"><b style="color:#1a7f44">4</b><span>green</span></div>
-  <div class="stat"><b>83%</b><span>mean evidence resolved</span></div>
-  <div class="stat"><b class="date">2026-11-09</b><span>run date</span></div>
+  <div class="stat"><b>5</b><span>assets tested</span></div>
+  <div class="stat"><b>2,628</b><span>MW covered</span></div>
+  <div class="stat"><b style="color:#b3261e">0</b><span>investigate</span></div>
+  <div class="stat"><b style="color:#b06b00">1</b><span>worth a look</span></div>
+  <div class="stat"><b style="color:#1a7f44">4</b><span>little to investigate</span></div>
+  <div class="stat"><b>83%</b><span>of checks resolved</span></div>
 </section>
 
 <section>
-  <h2>Where they are</h2>
-  <div id="map" style="height:460px;border-radius:10px;overflow:hidden"></div>
-  <p class="note">Marker size reflects capacity; colour is the traffic light.</p>
+  <p class="eyebrow">How it works</p>
+  <h2>From a claim on a page to a number you can argue with</h2>
+  <div class="flowwrap"><svg class='flow' viewBox='0 0 1300 470' preserveAspectRatio='xMidYMid meet' role='img' aria-label='How the assessment works, in five stages'><path class='fedge' d='M390 240 C 415 240, 415 53, 440 53'/><path class='fedge' d='M695 53 C 745 53, 780 240, 830 240'/><path class='fedge' d='M390 240 C 415 240, 415 128, 440 128'/><path class='fedge' d='M695 128 C 745 128, 780 240, 830 240'/><path class='fedge' d='M390 240 C 415 240, 415 203, 440 203'/><path class='fedge' d='M695 203 C 745 203, 780 240, 830 240'/><path class='fedge' d='M390 240 C 415 240, 415 278, 440 278'/><path class='fedge' d='M695 278 C 745 278, 780 240, 830 240'/><path class='fedge' d='M390 240 C 415 240, 415 353, 440 353'/><path class='fedge' d='M695 353 C 745 353, 780 240, 830 240'/><path class='fedge strong' d='M185 240 L205 240'/><path class='fedge strong' d='M1015 240 L1050 240'/><g class='fpill'><rect x='440' y='25' width='255' height='56' rx='12'/><text class='fpill-name' x='454' y='48'>Sentinel-2</text><text class='fpill-what' x='454' y='67'>the panels and the greenery</text></g><g class='fpill'><rect x='440' y='100' width='255' height='56' rx='12'/><text class='fpill-name' x='454' y='123'>Dynamic World</text><text class='fpill-what' x='454' y='142'>built ground vs. bare ground</text></g><g class='fpill'><rect x='440' y='175' width='255' height='56' rx='12'/><text class='fpill-name' x='454' y='198'>ERA5-Land</text><text class='fpill-what' x='454' y='217'>sunlight and temperature</text></g><g class='fpill'><rect x='440' y='250' width='255' height='56' rx='12'/><text class='fpill-name' x='454' y='273'>JRC Global Surface Water</text><text class='fpill-what' x='454' y='292'>where water has stood</text></g><g class='fpill'><rect x='440' y='325' width='255' height='56' rx='12'/><text class='fpill-name' x='454' y='348'>Copernicus DEM</text><text class='fpill-what' x='454' y='367'>the shape of the land</text></g><g class='fnode'><rect x='0' y='182' width='185' height='116' rx='14'/><text class='fnum' x='16' y='210'>1</text><text class='ftitle' x='16' y='234'>The claim</text><foreignObject x='14' y='244' width='157' height='54'><div xmlns='http://www.w3.org/1999/xhtml' class='fbody'>A database says: 648 MW, built in 2019, this operator.</div></foreignObject></g><g class='fnode'><rect x='205' y='182' width='185' height='116' rx='14'/><text class='fnum' x='221' y='210'>2</text><text class='ftitle' x='221' y='234'>The place</text><foreignObject x='219' y='244' width='157' height='54'><div xmlns='http://www.w3.org/1999/xhtml' class='fbody'>Draw the farm's footprint on the map from its capacity.</div></foreignObject></g><g class='fnode'><rect x='830' y='182' width='185' height='116' rx='14'/><text class='fnum' x='846' y='210'>4</text><text class='ftitle' x='846' y='234'>The test</text><foreignObject x='844' y='244' width='157' height='54'><div xmlns='http://www.w3.org/1999/xhtml' class='fbody'>Compare each against a published threshold.</div></foreignObject></g><g class='fnode'><rect x='1050' y='182' width='240' height='116' rx='14'/><text class='fnum' x='1066' y='210'>5</text><text class='ftitle' x='1066' y='234'>The verdict</text><foreignObject x='1064' y='244' width='212' height='54'><div xmlns='http://www.w3.org/1999/xhtml' class='fbody'>A risk score, a colour, and the reasoning in full.</div></foreignObject></g><text class='fstage' x='567.5' y='14' text-anchor='middle'>3 &#183; The evidence &#8212; nine years of free satellite archives</text><g class='ftag'><rect x='468' y='402' width='160' height='34' rx='17'/><text x='548' y='424' text-anchor='middle'>Data cost: &#8377;0</text></g></svg></div>
+  <table class="feeds">
+    <thead><tr><th>What we look at</th><th>What it tells us</th><th>Resolution</th></tr></thead>
+    <tbody><tr><td><b>Sentinel-2</b></td><td>sees the panels and how green the ground is</td><td class='src'>10 m, every 5 days</td></tr><tr><td><b>Dynamic World</b></td><td>sees built-up ground against bare ground</td><td class='src'>10 m, every 5 days</td></tr><tr><td><b>ERA5-Land</b></td><td>sees sunlight and temperature</td><td class='src'>9 km, daily since 1950</td></tr><tr><td><b>JRC Global Surface Water</b></td><td>sees where water has stood since 1984</td><td class='src'>30 m</td></tr><tr><td><b>Copernicus DEM</b></td><td>sees the shape of the land</td><td class='src'>30 m</td></tr></tbody>
+  </table>
+</section>
+
+<section class="versus">
+  <h2>Why bother</h2>
+  <div class="vgrid">
+    <div class="vcol old">
+      <h3>The usual way</h3>
+      <p class="vbig">Weeks</p>
+      <ul>
+        <li>Send an engineer to the site</li>
+        <li>One asset at a time</li>
+        <li>Costs scale with every asset added</li>
+        <li>Tells you about today, not about the last nine years</li>
+      </ul>
+    </div>
+    <div class="vcol new">
+      <h3>This way</h3>
+      <p class="vbig">Minutes</p>
+      <ul>
+        <li>Runs from a desk, before anyone travels</li>
+        <li>Whole portfolio at once</li>
+        <li>Data costs nothing; the hundredth asset is free</li>
+        <li>Reads the full history back to 2017</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">This does not replace a site visit. It decides <i>which</i>
+    sites are worth one, and what to ask when you get there.</p>
+</section>
+
+
+<section class="worked">
+  <p class="eyebrow">One asset, start to finish</p>
+  <h2>Kamuthi Solar Power Plant</h2>
+  <p class="lede">The same five checks every other asset gets, shown in full so
+    you can see what the method actually produces.</p>
+  <div class="worked-grid">
+    <div class="worked-vis">
+      <figure class='compare'><img class='single' src='assets/img/WRI1026151.png' alt='Satellite view of the site'><figcaption>True-colour Sentinel-2 composite of the footprint.</figcaption></figure>
+      <div class="chartbox">
+        <p class="slabel">How green the ground is inside the footprint</p>
+        <svg class='chart' viewBox='0 0 720 300' preserveAspectRatio='xMidYMid meet' role='img' aria-label='greenness inside the footprint at Kamuthi Solar Power Plant, by year'><line class='grid' x1='58' y1='236.2' x2='702' y2='236.2'/><text class='tick' x='48' y='240.2' text-anchor='end'>0.20</text><line class='grid' x1='58' y1='166.1' x2='702' y2='166.1'/><text class='tick' x='48' y='170.1' text-anchor='end'>0.30</text><line class='grid' x1='58' y1='96.1' x2='702' y2='96.1'/><text class='tick' x='48' y='100.1' text-anchor='end'>0.40</text><line class='grid' x1='58' y1='26.0' x2='702' y2='26.0'/><text class='tick' x='48' y='30.0' text-anchor='end'>0.50</text><text class='tick' x='58.0' y='280' text-anchor='middle'>2017</text><text class='tick' x='138.5' y='280' text-anchor='middle'>2018</text><text class='tick' x='219.0' y='280' text-anchor='middle'>2019</text><text class='tick' x='299.5' y='280' text-anchor='middle'>2020</text><text class='tick' x='380.0' y='280' text-anchor='middle'>2021</text><text class='tick' x='460.5' y='280' text-anchor='middle'>2022</text><text class='tick' x='541.0' y='280' text-anchor='middle'>2023</text><text class='tick' x='621.5' y='280' text-anchor='middle'>2024</text><text class='tick' x='702.0' y='280' text-anchor='middle'>2025</text><polygon points='58.0,258.0 58.0,239.6 138.5,181.0 219.0,205.0 299.5,167.4 380.0,115.1 460.5,101.8 541.0,175.5 621.5,100.2 702.0,86.6 702.0,258.0' fill='var(--series-2)' opacity='0.12'/><polyline points='58.0,239.6 138.5,181.0 219.0,205.0 299.5,167.4 380.0,115.1 460.5,101.8 541.0,175.5 621.5,100.2 702.0,86.6' fill='none' stroke='var(--series-2)' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round'/><line class='callout' x1='58.0' y1='239.6' x2='58.0' y2='229.6'/><circle cx='58.0' cy='239.6' r='5' fill='var(--series-2)' stroke='var(--bg)' stroke-width='2'/><text class='callout-text' x='68.0' y='221.6' text-anchor='start'>bare ground</text><line class='callout' x1='702.0' y1='86.6' x2='702.0' y2='76.6'/><circle cx='702.0' cy='86.6' r='5' fill='var(--series-2)' stroke='var(--bg)' stroke-width='2'/><text class='callout-text' x='692.0' y='68.6' text-anchor='end'>vegetation established</text></svg>
+        <p class="note">Higher means more vegetation. A working solar farm
+          should sit low and flat.</p>
+      </div>
+    </div>
+    <div class="worked-text">
+      <div class="verdict" style="border-color:#b06b00">
+        <span class="vscore" style="color:#b06b00">35</span>
+        <span class="vof">/100 risk score</span>
+        <span class="vband">worth a look</span>
+      </div>
+      <p>The database reports <b>648 MW</b> at Kamuthi Solar Power Plant, operated by Adani Power Limited. It gives no commissioning year, so there is no build date to test against.</p><p>The satellite record opens in 2017 with the site already developed, so the construction check cannot speak to this plant. That is reported as unresolved rather than scored as clean.</p><p>Greenness inside the footprint has risen from <b>0.20 to 0.41</b> over the record (+0.0233 a year). On a working solar farm this should stay low and flat; a rise means vegetation establishing between and under the panels, which shades them at low sun angles and shows up as a maintenance cost before it shows up as lost output.</p><p>Daily maximum temperature averages <b>33.7&deg;C</b>, which implies roughly <b>14.0%</b> of output lost to cell temperature at full sun. It only passes 40&deg;C on 6 days a year, so the heat check stays clear. Physics rather than a fault, but it belongs in a yield assumption.</p><p>On water: standing water has covered part of the footprint <b>14% of the months</b> on record since 1984, and it sits 7.7 m above the nearest drainage line, which is comfortable. That is enough to raise the flood check.</p><p><b>Net:</b> 2 of five checks flagged (vegetation encroachment, flood exposure), giving a risk score of 35 out of 100 &mdash; worth a look.</p>
+      <p><a class="btn" href="cards/WRI1026151.html">See the full assessment card &rarr;</a></p>
+    </div>
+  </div>
 </section>
 
 <section>
-  <h2>Portfolio</h2>
-  <p class="note">Click a column heading to sort. Score is the weighted sum of
-    flags that fired, not a valuation.</p>
+  <h2>Every asset in this run</h2>
+  <div id="map" style="height:460px;border-radius:12px;overflow:hidden"></div>
+  <p class="note">Marker size is capacity; colour is the verdict.</p>
   <table class="portfolio" id="pf">
     <thead><tr>
-      <th>Asset</th><th>MW</th><th>Score</th><th>Evidence</th><th>Flags fired</th>
+      <th>Asset</th><th>MW</th><th>Risk score</th><th>Checks resolved</th><th>Flags raised</th>
     </tr></thead>
     <tbody><tr><td><a href='cards/WRI1026151.html'>Kamuthi Solar Power Plant</a></td><td data-v='648.0'>648</td><td data-v='35.0'><span class='pill' style='background:#b06b00'>35</span></td><td data-v='0.83'>83%</td><td>vegetation encroachment, flood exposure</td></tr>
 <tr><td><a href='cards/WKS0069465.html'>BhSP3</a></td><td data-v='560.0'>560</td><td data-v='15.0'><span class='pill' style='background:#1a7f44'>15</span></td><td data-v='0.83'>83%</td><td>thermal derating</td></tr>
-<tr><td><a href='cards/WKS0069391.html'>KUMSP} Greenko</a></td><td data-v='500.0'>500</td><td data-v='0.0'><span class='pill' style='background:#1a7f44'>0</span></td><td data-v='0.83'>83%</td><td>none</td></tr>
-<tr><td><a href='cards/WKS0066930.html'>NPKSP} Greenko</a></td><td data-v='500.0'>500</td><td data-v='20.0'><span class='pill' style='background:#1a7f44'>20</span></td><td data-v='0.83'>83%</td><td>flood exposure</td></tr>
+<tr><td><a href='cards/WKS0069391.html'>KUMSP Greenko</a></td><td data-v='500.0'>500</td><td data-v='0.0'><span class='pill' style='background:#1a7f44'>0</span></td><td data-v='0.83'>83%</td><td>none</td></tr>
+<tr><td><a href='cards/WKS0066930.html'>NPKSP Greenko</a></td><td data-v='500.0'>500</td><td data-v='20.0'><span class='pill' style='background:#1a7f44'>20</span></td><td data-v='0.83'>83%</td><td>flood exposure</td></tr>
 <tr><td><a href='cards/WKS0069463.html'>BhSP1</a></td><td data-v='420.0'>420</td><td data-v='15.0'><span class='pill' style='background:#1a7f44'>15</span></td><td data-v='0.83'>83%</td><td>thermal derating</td></tr></tbody>
   </table>
+  <p class="note">Click a column heading to sort.</p>
 </section>
 
 <section>
-  <h2>How the score is built</h2>
-  <table class="weights">
-    <thead><tr><th>Check</th><th>Weight</th><th>Fires when</th></tr></thead>
-    <tbody>
-      <tr><td>Build timing</td><td>30</td>
-        <td>observed build more than 12 months after the reported commissioning year ends</td></tr>
-      <tr><td>Resource shortfall</td><td>20</td>
-        <td>mean annual GHI anomaly below -3.0% against 1991-2020</td></tr>
-      <tr><td>Thermal derating</td><td>15</td>
-        <td>more than 60 days a year above 40°C</td></tr>
-      <tr><td>Vegetation</td><td>15</td>
-        <td>NDVI trend inside the footprint above +0.010 per year</td></tr>
-      <tr><td>Flood exposure</td><td>20</td>
-        <td>surface-water occurrence above 10% or height above drainage under 5 m</td></tr>
-    </tbody>
-  </table>
+  <h2>What the risk score is made of</h2>
+  <p class="lede">Five checks, each weighted by how much it would change a
+    decision. A flag adds its weight; the total is the score.</p>
+  <svg class='chart' viewBox='0 0 720 280' preserveAspectRatio='xMidYMid meet' role='img' aria-label='weights making up the risk score'><rect class='wbar' x='240' y='10' width='126.0' height='26' rx='5'/><text class='wlabel' x='230' y='28.0' text-anchor='end'>Build delay</text><text class='wval' x='376.0' y='28.0'>30</text><rect class='wbar' x='240' y='66' width='84.0' height='26' rx='5'/><text class='wlabel' x='230' y='84.0' text-anchor='end'>Resource shortfall</text><text class='wval' x='334.0' y='84.0'>20</text><rect class='wbar' x='240' y='122' width='63.0' height='26' rx='5'/><text class='wlabel' x='230' y='140.0' text-anchor='end'>Thermal derating</text><text class='wval' x='313.0' y='140.0'>15</text><rect class='wbar' x='240' y='178' width='63.0' height='26' rx='5'/><text class='wlabel' x='230' y='196.0' text-anchor='end'>Vegetation encroachment</text><text class='wval' x='313.0' y='196.0'>15</text><rect class='wbar' x='240' y='234' width='84.0' height='26' rx='5'/><text class='wlabel' x='230' y='252.0' text-anchor='end'>Flood exposure</text><text class='wval' x='334.0' y='252.0'>20</text></svg>
+  <div class="bands">
+    <span class="pill" style="background:#1a7f44">0&ndash;24</span> little to investigate
+    <span class="pill" style="background:#b06b00">25&ndash;54</span> worth a look
+    <span class="pill" style="background:#b3261e">55&ndash;100</span> investigate before committing
+  </div>
+  <p class="note"><b>A high score is not a bad asset.</b> It means the public
+    record and the satellite record disagree, or the site carries a physical
+    exposure worth pricing. It ranks what to examine. It is not a valuation,
+    a yield estimate, or a statement about any operator.</p>
+  
+  <div class="gapnote">
+    <h3>Where this run is thin</h3>
+    <p>5 of 5 assets have no commissioning year in the source
+      database, and all of them were already built when the satellite record
+      opens in 2017. So the construction check &mdash; the heaviest
+      weight in the score &mdash; could not be resolved for any asset here.
+      Those are reported as unresolved, not as clean, and every risk score on
+      this page should be read as a <b>lower bound</b>.</p>
+    <p class="note">This is a finding about the public record, not a fault in
+      the assets. It is also the clearest argument for the method: the gap is
+      visible instead of silently filled in.</p>
+  </div>
 </section>
 
 <section class="limits">
-  <h2>What this does not do</h2>
-  <ul>
-    <li>The footprint is a capacity-scaled circle, not a segmented panel array.
-      It over-includes surrounding land, which dilutes every area statistic.</li>
-    <li>Height above nearest drainage is approximated from a DEM neighbourhood
-      minimum. It is a screening proxy, not a hydraulic flood model.</li>
-    <li>A flag is a reason to look, never a finding. Nothing here is evidence
-      of misreporting by any operator.</li>
-    <li>Unresolved checks score as clear, so a score is a lower bound. Each card
-      states how much of the rubric was resolved.</li>
-    <li>Earth Engine's free tier is for non-commercial use. This is a personal
-      methodology prototype.</li>
-  </ul>
+  <p class="eyebrow">Read this part</p>
+  <h2>Five things this gets wrong &mdash; and why they are published</h2>
+  <p class="lede">Any screening tool can be made to look certain. This one
+    lists its own failure modes, because a number you cannot challenge is a
+    number you should not rely on.</p>
+  <ol class="limitlist">
+    <li><b>The footprint is a circle, not the panels.</b> Area comes from
+      capacity at 2.2 hectares per MW. It takes in surrounding land, which
+      dilutes every area measurement &mdash; most of all on smaller plants.</li>
+    <li><b>Flood exposure is a terrain proxy.</b> Height above the nearest
+      drainage line is estimated from an elevation model, not modelled
+      hydraulically. It finds sites worth a flood study; it is not one.</li>
+    <li><b>The weather data is coarse.</b> ERA5-Land cells are about 9 km
+      across, so sunlight and temperature are regional, not measured at the
+      fence line.</li>
+    <li><b>Land classification confuses things.</b> Bare earth, quarries and
+      new industrial land all read as developed. Seasonal vegetation moves the
+      signal enough to mask a real construction ramp.</li>
+    <li><b>The source database is incomplete.</b> Commissioning years are
+      patchy. A timing flag is at least as likely to mean the database is
+      stale as anything about the asset.</li>
+  </ol>
+  <p class="note">And the standing rule: <b>a flag is a reason to look, never
+    a finding.</b> Nothing here is evidence of misreporting by any operator,
+    and nothing here is investment advice.</p>
 </section>
 
 <footer class="sitefoot">
-  <p>Data: Sentinel-2 (ESA/Copernicus), Dynamic World (Google/WRI),
-     ERA5-Land (ECMWF/Copernicus), JRC Global Surface Water,
-     Copernicus DEM GLO-30, WRI Global Power Plant Database.
-     Processed in Google Earth Engine. Code MIT licensed.</p>
+  <p><b>Data</b> &middot; Sentinel-2 (ESA/Copernicus) &middot; Dynamic World
+     (Google/WRI) &middot; ERA5-Land (ECMWF/Copernicus) &middot; JRC Global
+     Surface Water &middot; Copernicus DEM GLO-30 &middot; Global Power Plant
+     Database (WRI, CC BY 4.0). Processed in Google Earth Engine.</p>
+  <p>A personal methodology prototype, published as independent work. Earth
+     Engine's free tier is non-commercial. Code MIT licensed.</p>
 </footer>
 </main>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const PTS = [{"name": "Kamuthi Solar Power Plant", "lat": 9.3381, "lon": 78.3917, "score": 35.0, "light": "amber", "mw": 648.0, "slug": "WRI1026151"}, {"name": "BhSP3", "lat": 27.491, "lon": 71.961, "score": 15.0, "light": "green", "mw": 560.0, "slug": "WKS0069465"}, {"name": "KUMSP} Greenko", "lat": 15.679, "lon": 78.274, "score": 0.0, "light": "green", "mw": 500.0, "slug": "WKS0069391"}, {"name": "NPKSP} Greenko", "lat": 14.101, "lon": 78.463, "score": 20.0, "light": "green", "mw": 500.0, "slug": "WKS0066930"}, {"name": "BhSP1", "lat": 27.491, "lon": 71.961, "score": 15.0, "light": "green", "mw": 420.0, "slug": "WKS0069463"}];
+const PTS = [{"name": "Kamuthi Solar Power Plant", "lat": 9.3381, "lon": 78.3917, "score": 35.0, "light": "amber", "mw": 648.0, "slug": "WRI1026151"}, {"name": "BhSP3", "lat": 27.491, "lon": 71.961, "score": 15.0, "light": "green", "mw": 560.0, "slug": "WKS0069465"}, {"name": "KUMSP Greenko", "lat": 15.679, "lon": 78.274, "score": 0.0, "light": "green", "mw": 500.0, "slug": "WKS0069391"}, {"name": "NPKSP Greenko", "lat": 14.101, "lon": 78.463, "score": 20.0, "light": "green", "mw": 500.0, "slug": "WKS0066930"}, {"name": "BhSP1", "lat": 27.491, "lon": 71.961, "score": 15.0, "light": "green", "mw": 420.0, "slug": "WKS0069463"}];
 const COL = {"green": "#1a7f44", "amber": "#b06b00", "red": "#b3261e"};
 const map = L.map('map').setView([22.5, 79.0], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -102,33 +189,47 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 PTS.forEach(p => {
   L.circleMarker([p.lat, p.lon], {
-    radius: Math.max(5, Math.min(18, Math.sqrt(p.mw || 1) / 3)),
+    radius: Math.max(6, Math.min(20, Math.sqrt(p.mw || 1) / 3)),
     color: COL[p.light] || '#666', fillColor: COL[p.light] || '#666',
-    fillOpacity: 0.65, weight: 1.5
+    fillOpacity: 0.6, weight: 2
   }).addTo(map).bindPopup(
-    `<b>${p.name}</b><br>${(p.mw||0).toLocaleString()} MW &middot; score ${p.score}` +
+    `<b>${p.name}</b><br>${(p.mw||0).toLocaleString()} MW &middot; risk score ${p.score}` +
     `<br><a href="cards/${p.slug}.html">assessment card</a>`
   );
 });
-if (PTS.length) {
-  map.fitBounds(PTS.map(p => [p.lat, p.lon]), {padding: [40, 40]});
-}
+if (PTS.length) map.fitBounds(PTS.map(p => [p.lat, p.lon]), {padding: [50, 50]});
 
-// sortable table, no dependency
 document.querySelectorAll('#pf thead th').forEach((th, i) => {
   th.style.cursor = 'pointer';
   let asc = false;
   th.addEventListener('click', () => {
     asc = !asc;
     const tb = document.querySelector('#pf tbody');
-    const rows = Array.from(tb.rows);
-    rows.sort((a, b) => {
+    Array.from(tb.rows).sort((a, b) => {
       const av = a.cells[i].dataset.v, bv = b.cells[i].dataset.v;
       if (av !== undefined && bv !== undefined) return (asc ? 1 : -1) * (parseFloat(av) - parseFloat(bv));
       return (asc ? 1 : -1) * a.cells[i].innerText.localeCompare(b.cells[i].innerText);
-    });
-    rows.forEach(r => tb.appendChild(r));
+    }).forEach(r => tb.appendChild(r));
   });
+});
+
+const rng = document.getElementById('cmpRange');
+if (rng) {
+  const then = document.getElementById('cmpThen');
+  const line = document.getElementById('cmpLine');
+  const move = () => {
+    const v = +rng.value;
+    then.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)';
+    line.style.left = v + '%';
+  };
+  rng.addEventListener('input', move); move();
+}
+
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), {threshold: 0.15});
+document.querySelectorAll('section, .flowwrap').forEach(el => {
+  el.classList.add('reveal'); io.observe(el);
 });
 </script>
 </body></html>

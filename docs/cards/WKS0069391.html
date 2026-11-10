@@ -1,74 +1,85 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KUMSP} Greenko — asset assessment</title>
+<title>KUMSP Greenko — assessment card</title>
 <link rel="stylesheet" href="../assets/style.css">
 </head><body class="card-page">
 <article class="card">
   <header style="border-left:10px solid #1a7f44;background:#e7f4ec">
-    <p class="eyebrow">Solar asset assessment card</p>
-    <h1>KUMSP} Greenko</h1>
+    <p class="eyebrow">Solar asset assessment</p>
+    <h1>KUMSP Greenko</h1>
     <p class="sub">500 MW &middot;
-      15.6790, 78.2740 &middot;
-      operator &mdash;</p>
+      15.6790, 78.2740
+      </p>
     <div class="scorebox">
-      <div class="score" style="color:#1a7f44">0<span>/100</span></div>
-      <div class="light" style="background:#1a7f44">GREEN</div>
+      <div>
+        <div class="score" style="color:#1a7f44">0<span>/100</span></div>
+        <div class="scorelabel">risk score</div>
+      </div>
+      <div class="light" style="background:#1a7f44">little to investigate</div>
+      <div class="ringbox">
+        <svg class='ring' viewBox='0 0 92 92' width='92' height='92' role='img' aria-label='83% of checks resolved'><circle cx='46.0' cy='46.0' r='38.0' class='ring-track'/><circle cx='46.0' cy='46.0' r='38.0' class='ring-fill' stroke-dasharray='198.2 40.6' transform='rotate(-90 46.0 46.0)'/><text x='46.0' y='52.0' text-anchor='middle' class='ring-text'>83%</text></svg>
+        <span>of checks<br>resolved</span>
+      </div>
       <div class="meta">
-        <div>Evidence resolved: <b>83%</b></div>
-        <div>Footprint proxy: <b>1,871 m radius</b></div>
-        <div>Assessed: <b>2026-11-09</b></div>
+        <div>Footprint used: <b>1,871 m radius</b></div>
+        <div>Assessed: <b>2026-11-10</b></div>
       </div>
     </div>
   </header>
 
   <section class="imagery">
-    <h2>Site</h2>
-    <div class="thumb"><img src='https://earthengine.googleapis.com/v1/projects/arr-feasibility/thumbnails/3528aeb900b1f1bcd911bdc6e3f3322f-2630b9b1ab9348e5088c83b21c9b2823:getPixels' alt='Sentinel-2 true colour composite of the site' loading='lazy'></div>
+    <h2>The site</h2>
+    <div class="thumb"><img src='https://earthengine.googleapis.com/v1/projects/arr-feasibility/thumbnails/038761f22c48921539392d21690babb4-de272ffb33782e7b2c68d58d53c9eb06:getPixels' alt='Satellite view of KUMSP Greenko' loading='lazy'>
+      <p class="note">True-colour Sentinel-2 composite over the footprint.</p>
+    </div>
     <div class="series">
-      <p class="slabel">Share of footprint built or bare, monthly since 2017</p>
-      <svg viewBox='0 0 260 44' width='260' height='44' role='img' aria-label='time series'><polyline fill='none' stroke='#2b6cb0' stroke-width='2' stroke-linejoin='round' points='2.0,19.5 4.4,22.7 6.8,11.0 9.2,18.4 11.7,6.0 14.1,12.3 26.2,27.8 28.6,32.7 31.0,33.7 33.4,38.4 35.8,39.4 38.2,33.4 40.6,21.9 43.1,22.1 50.3,20.5 52.7,24.4 55.1,24.7 57.5,22.7 60.0,28.5 62.4,21.9 64.8,26.2 67.2,26.4 69.6,17.7 72.0,18.4 74.5,6.0 76.9,25.0 79.3,31.8 84.1,38.3 86.5,25.6 88.9,29.2 91.4,30.8 93.8,34.6 96.2,33.8 98.6,32.0 101.0,25.4 110.7,40.8 113.1,40.3 115.5,37.5 117.9,36.2 120.3,36.7 122.8,37.5 125.2,37.9 127.6,28.7 130.0,32.9 139.7,32.5 144.5,38.7 146.9,37.1 149.3,36.3 151.7,35.5 154.2,33.7 156.6,31.7 159.0,23.1 168.6,40.4 171.1,39.4 173.5,36.0 175.9,37.3 178.3,37.1 180.7,35.4 183.1,36.9 185.5,32.3 188.0,28.7 192.8,21.9 197.6,35.7 200.0,28.1 202.5,32.3 204.9,21.2 207.3,29.8 209.7,31.5 212.1,33.9 214.5,31.6 216.9,12.4 219.4,29.4 224.2,37.1 226.6,38.8 229.0,39.4 231.4,35.5 233.8,34.8 236.3,33.1 238.7,38.5 241.1,30.4 243.5,24.9 255.6,42.0 258.0,40.9'/></svg><span class='range'>0 to 1 over 83 points</span>
-      <p class="slabel">Mean NDVI inside the footprint, annual</p>
-      <svg viewBox='0 0 260 44' width='260' height='44' role='img' aria-label='time series'><polyline fill='none' stroke='#1a7f44' stroke-width='2' stroke-linejoin='round' points='2.0,42.0 34.0,23.2 66.0,39.4 98.0,22.8 130.0,11.7 162.0,6.0 194.0,10.1 226.0,31.9 258.0,15.1'/></svg><span class='range'>0.147 to 0.216 over 9 points</span>
+      <p class="slabel">Share of the footprint reading as built or bare ground</p>
+      <svg class='chart' viewBox='0 0 640 230' preserveAspectRatio='xMidYMid meet' role='img' aria-label='share of the footprint reading as built or bare'><line class='grid' x1='58' y1='173.0' x2='622' y2='173.0'/><text class='tick' x='48' y='177.0' text-anchor='end'>0.00</text><line class='grid' x1='58' y1='110.7' x2='622' y2='110.7'/><text class='tick' x='48' y='114.7' text-anchor='end'>0.50</text><line class='grid' x1='58' y1='48.4' x2='622' y2='48.4'/><text class='tick' x='48' y='52.4' text-anchor='end'>1.00</text><text class='tick' x='58.0' y='210' text-anchor='middle'>2017-01</text><text class='tick' x='148.5' y='210' text-anchor='middle'>2018-06</text><text class='tick' x='238.9' y='210' text-anchor='middle'>2019-11</text><text class='tick' x='329.4' y='210' text-anchor='middle'>2021-04</text><text class='tick' x='419.8' y='210' text-anchor='middle'>2022-09</text><text class='tick' x='510.3' y='210' text-anchor='middle'>2024-02</text><text class='tick' x='600.7' y='210' text-anchor='middle'>2025-07</text><polygon points='58.0,188.0 58.0,95.2 63.3,106.1 68.6,65.7 74.0,91.3 79.3,48.4 84.6,70.1 111.2,123.7 116.5,141.0 121.8,144.4 127.2,160.6 132.5,164.0 137.8,143.2 143.1,103.6 148.5,104.2 164.4,98.7 169.7,112.3 175.1,113.0 180.4,106.2 185.7,126.3 191.0,103.5 196.3,118.5 201.7,119.1 207.0,88.9 212.3,91.3 217.6,48.4 222.9,114.3 228.3,137.9 238.9,160.1 244.2,116.3 249.5,128.8 254.9,134.4 260.2,147.5 265.5,144.8 270.8,138.5 276.2,115.5 297.4,168.8 302.8,167.3 308.1,157.6 313.4,153.0 318.7,154.7 324.0,157.4 329.4,158.8 334.7,127.0 340.0,141.6 361.3,140.1 371.9,161.8 377.2,156.3 382.6,153.2 387.9,150.5 393.2,144.2 398.5,137.2 403.8,107.5 425.1,167.5 430.5,164.0 435.8,152.2 441.1,156.7 446.4,156.2 451.7,150.1 457.1,155.5 462.4,139.5 467.7,127.0 478.3,103.3 489.0,151.1 494.3,124.9 499.6,139.5 504.9,100.9 510.3,131.0 515.6,136.8 520.9,145.1 526.2,137.0 531.5,70.6 536.9,129.6 547.5,156.2 552.8,161.9 558.2,164.1 563.5,150.5 568.8,148.1 574.1,142.4 579.4,160.9 584.8,132.8 590.1,113.9 616.7,173.0 622.0,169.1 622.0,188.0' fill='var(--series-1)' opacity='0.12'/><polyline points='58.0,95.2 63.3,106.1 68.6,65.7 74.0,91.3 79.3,48.4 84.6,70.1 111.2,123.7 116.5,141.0 121.8,144.4 127.2,160.6 132.5,164.0 137.8,143.2 143.1,103.6 148.5,104.2 164.4,98.7 169.7,112.3 175.1,113.0 180.4,106.2 185.7,126.3 191.0,103.5 196.3,118.5 201.7,119.1 207.0,88.9 212.3,91.3 217.6,48.4 222.9,114.3 228.3,137.9 238.9,160.1 244.2,116.3 249.5,128.8 254.9,134.4 260.2,147.5 265.5,144.8 270.8,138.5 276.2,115.5 297.4,168.8 302.8,167.3 308.1,157.6 313.4,153.0 318.7,154.7 324.0,157.4 329.4,158.8 334.7,127.0 340.0,141.6 361.3,140.1 371.9,161.8 377.2,156.3 382.6,153.2 387.9,150.5 393.2,144.2 398.5,137.2 403.8,107.5 425.1,167.5 430.5,164.0 435.8,152.2 441.1,156.7 446.4,156.2 451.7,150.1 457.1,155.5 462.4,139.5 467.7,127.0 478.3,103.3 489.0,151.1 494.3,124.9 499.6,139.5 504.9,100.9 510.3,131.0 515.6,136.8 520.9,145.1 526.2,137.0 531.5,70.6 536.9,129.6 547.5,156.2 552.8,161.9 558.2,164.1 563.5,150.5 568.8,148.1 574.1,142.4 579.4,160.9 584.8,132.8 590.1,113.9 616.7,173.0 622.0,169.1' fill='none' stroke='var(--series-1)' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round'/></svg>
+      <p class="slabel">How green the ground is inside the footprint</p>
+      <svg class='chart' viewBox='0 0 640 230' preserveAspectRatio='xMidYMid meet' role='img' aria-label='greenness inside the footprint'><line class='grid' x1='58' y1='168.4' x2='622' y2='168.4'/><text class='tick' x='48' y='172.4' text-anchor='end'>0.15</text><line class='grid' x1='58' y1='123.1' x2='622' y2='123.1'/><text class='tick' x='48' y='127.1' text-anchor='end'>0.17</text><line class='grid' x1='58' y1='77.7' x2='622' y2='77.7'/><text class='tick' x='48' y='81.7' text-anchor='end'>0.20</text><line class='grid' x1='58' y1='32.4' x2='622' y2='32.4'/><text class='tick' x='48' y='36.4' text-anchor='end'>0.23</text><text class='tick' x='58.0' y='210' text-anchor='middle'>2017</text><text class='tick' x='128.5' y='210' text-anchor='middle'>2018</text><text class='tick' x='199.0' y='210' text-anchor='middle'>2019</text><text class='tick' x='269.5' y='210' text-anchor='middle'>2020</text><text class='tick' x='340.0' y='210' text-anchor='middle'>2021</text><text class='tick' x='410.5' y='210' text-anchor='middle'>2022</text><text class='tick' x='481.0' y='210' text-anchor='middle'>2023</text><text class='tick' x='551.5' y='210' text-anchor='middle'>2024</text><text class='tick' x='622.0' y='210' text-anchor='middle'>2025</text><polygon points='58.0,188.0 58.0,173.0 128.5,107.9 199.0,164.1 269.5,106.5 340.0,68.3 410.5,48.4 481.0,62.5 551.5,138.1 622.0,79.9 622.0,188.0' fill='var(--series-2)' opacity='0.12'/><polyline points='58.0,173.0 128.5,107.9 199.0,164.1 269.5,106.5 340.0,68.3 410.5,48.4 481.0,62.5 551.5,138.1 622.0,79.9' fill='none' stroke='var(--series-2)' stroke-width='2.5' stroke-linejoin='round' stroke-linecap='round'/></svg>
+      <p class="note">Built-ground share moves with the seasons as well as with
+        construction, which is why a construction date is only reported when a
+        clear rise is visible.</p>
     </div>
   </section>
 
   <section>
-    <h2>What was measured</h2>
-    <table class="evidence">
-      <thead><tr><th>Measure</th><th>Value</th><th>Source</th></tr></thead>
-      <tbody><tr><th scope='row'>Reported commissioning year</th><td><span class='na'>not resolved</span></td><td class='src'>WRI Global Power Plant Database</td></tr>
-<tr><th scope='row'>First month substantially built</th><td>2017-01</td><td class='src'>Dynamic World built + bare share of footprint</td></tr>
-<tr><th scope='row'>Build timing difference</th><td><span class='na'>not resolved</span></td><td class='src'>positive = built after the reported year</td></tr>
-<tr><th scope='row'>Mean annual GHI anomaly</th><td>-2.90%</td><td class='src'>ERA5-Land vs. 1991-2020 mean</td></tr>
-<tr><th scope='row'>Baseline annual GHI</th><td>1,928 kWh/m²</td><td class='src'>ERA5-Land 1991-2020</td></tr>
-<tr><th scope='row'>Days per year above 40°C</th><td>14 days</td><td class='src'>ERA5-Land daily maximum 2 m temperature</td></tr>
-<tr><th scope='row'>Indicative thermal derating</th><td>13.60%</td><td class='src'>NOCT model, -0.35%/°C, at 1000 W/m²</td></tr>
-<tr><th scope='row'>NDVI trend inside footprint</th><td>0.0050 /year</td><td class='src'>Sentinel-2 annual median, OLS slope</td></tr>
-<tr><th scope='row'>Surface-water occurrence</th><td>7%</td><td class='src'>JRC Global Surface Water, 1984-2021</td></tr>
-<tr><th scope='row'>Height above nearest drainage</th><td>21.7 m</td><td class='src'>Copernicus DEM, 2000 m neighbourhood</td></tr></tbody>
-    </table>
-    <p class='caveat'><b>83% of the rubric was resolved.</b> Unresolved checks are shown as <i>not resolved</i> and were scored as clear, so this score is a lower bound on what the evidence might show.</p>
+    <h2>The five checks</h2>
+    <ul class="flags"><li class='clear'><span class='mark'>clear</span><span class='flabel'>Was it built when the record says?</span><span class='weight'>30 pts</span><span class='rule'>Raised when construction appears more than 12 months after the reported commissioning year ends.</span></li>
+<li class='clear'><span class='mark'>clear</span><span class='flabel'>Is there as much sun as expected?</span><span class='weight'>20 pts</span><span class='rule'>Raised when average yearly sunlight runs more than 3% below the 1991–2020 norm for that spot.</span></li>
+<li class='clear'><span class='mark'>clear</span><span class='flabel'>Does it run too hot to perform?</span><span class='weight'>15 pts</span><span class='rule'>Raised above 60 days a year over 40°C. Panels lose roughly 0.35% of output per °C above 25°C.</span></li>
+<li class='clear'><span class='mark'>clear</span><span class='flabel'>Is vegetation taking the site back?</span><span class='weight'>15 pts</span><span class='rule'>Raised when greenness inside the footprint climbs by more than +0.010 a year.</span></li>
+<li class='clear'><span class='mark'>clear</span><span class='flabel'>Could water reach it?</span><span class='weight'>20 pts</span><span class='rule'>Raised when standing water has covered part of the site more than 10% of the time since 1984, or the ground sits under 5 m above the nearest drainage line.</span></li></ul>
+    <svg class='chart' viewBox='0 0 720 280' preserveAspectRatio='xMidYMid meet' role='img' aria-label='weights making up the risk score'><rect class='wbar' x='240' y='10' width='126.0' height='26' rx='5'/><text class='wlabel' x='230' y='28.0' text-anchor='end'>Build delay</text><text class='wval' x='376.0' y='28.0'>30</text><rect class='wbar' x='240' y='66' width='84.0' height='26' rx='5'/><text class='wlabel' x='230' y='84.0' text-anchor='end'>Resource shortfall</text><text class='wval' x='334.0' y='84.0'>20</text><rect class='wbar' x='240' y='122' width='63.0' height='26' rx='5'/><text class='wlabel' x='230' y='140.0' text-anchor='end'>Thermal derating</text><text class='wval' x='313.0' y='140.0'>15</text><rect class='wbar' x='240' y='178' width='63.0' height='26' rx='5'/><text class='wlabel' x='230' y='196.0' text-anchor='end'>Vegetation encroachment</text><text class='wval' x='313.0' y='196.0'>15</text><rect class='wbar' x='240' y='234' width='84.0' height='26' rx='5'/><text class='wlabel' x='230' y='252.0' text-anchor='end'>Flood exposure</text><text class='wval' x='334.0' y='252.0'>20</text></svg>
+    <p class="note">Filled bars are the checks that flagged. The risk score is
+      their combined weight. It ranks what to examine &mdash; it is not a
+      valuation, a yield estimate, or a statement about the operator.</p>
+    <p class='caveat'><b>1 of six checks could not be resolved.</b> They are shown as <i>not resolved</i> and counted as clear, so this risk score is a <b>lower bound</b> &mdash; the evidence that is missing could only push it up.</p>
   </section>
 
   <section>
-    <h2>Rubric</h2>
-    <ul class="flags"><li class='clear'><span class='mark'>clear</span><span class='flabel'>Build timing vs. reported commissioning</span><span class='weight'>weight 30</span><span class='rule'>flagged when observed build is more than 12 months after the end of the reported commissioning year</span></li>
-<li class='clear'><span class='mark'>clear</span><span class='flabel'>Solar resource vs. 1991-2020 baseline</span><span class='weight'>weight 20</span><span class='rule'>flagged when mean annual GHI anomaly is below -3.0%</span></li>
-<li class='clear'><span class='mark'>clear</span><span class='flabel'>Heat exposure and thermal derating</span><span class='weight'>weight 15</span><span class='rule'>flagged above 60 days per year over 40.0°C</span></li>
-<li class='clear'><span class='mark'>clear</span><span class='flabel'>Vegetation trend inside the footprint</span><span class='weight'>weight 15</span><span class='rule'>flagged when the NDVI trend exceeds +0.010 per year</span></li>
-<li class='clear'><span class='mark'>clear</span><span class='flabel'>Surface water and height above drainage</span><span class='weight'>weight 20</span><span class='rule'>flagged when surface-water occurrence exceeds 10.0% or height above drainage is under 5.0 m</span></li></ul>
-    <p class="note">The score is the sum of the weights of the flags that fired.
-      It ranks sites for attention. It is not a valuation, a yield estimate, or a
-      statement about the operator.</p>
+    <h2>Every measurement behind it</h2>
+    <table class="evidence">
+      <thead><tr><th>What was measured</th><th>Value</th><th>Where it comes from</th></tr></thead>
+      <tbody><tr><th scope='row'>Build year on record</th><td><span class='na'>not resolved</span></td><td class='src'>WRI Global Power Plant Database</td></tr>
+<tr><th scope='row'>What the imagery shows</th><td>Already built before the satellite record opens</td><td class='src'>Dynamic World, built or bare share of the footprint</td></tr>
+<tr><th scope='row'>Difference</th><td><span class='na'>not resolved</span></td><td class='src'>positive means built after the reported year</td></tr>
+<tr><th scope='row'>Sunlight vs. the local norm</th><td>-2.90%</td><td class='src'>ERA5-Land against its own 1991–2020 average (GHI)</td></tr>
+<tr><th scope='row'>Typical yearly sunlight</th><td>1,928 kWh/m²</td><td class='src'>ERA5-Land 1991–2020 average</td></tr>
+<tr><th scope='row'>Days a year above 40°C</th><td>14 days</td><td class='src'>ERA5-Land daily maximum air temperature</td></tr>
+<tr><th scope='row'>Output lost to heat</th><td>13.6%</td><td class='src'>standard cell-temperature model at -0.35%/°C</td></tr>
+<tr><th scope='row'>Greenness trend on site</th><td>0.0050 a year</td><td class='src'>Sentinel-2 yearly median, straight-line trend (NDVI)</td></tr>
+<tr><th scope='row'>Time this ground has been under water</th><td>7%</td><td class='src'>JRC Global Surface Water, 1984–2021</td></tr>
+<tr><th scope='row'>Height above nearest drainage</th><td>21.7 m</td><td class='src'>Copernicus DEM, 2000 m around the site (HAND)</td></tr></tbody>
+    </table>
     
   </section>
 
   <footer>
     <p>Reported record: WRI Global Power Plant Database
-      &middot; <a href="https://www.wiki-solar.org">operator source</a>
-    </p>
-    <p><a href="../index.html">&larr; back to the portfolio</a></p>
+      &middot; <a href="https://www.wiki-solar.org">operator source</a></p>
+    <p><a class="btn" href="../index.html">&larr; Back to the portfolio</a></p>
   </footer>
 </article>
 </body></html>
